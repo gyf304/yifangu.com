@@ -5,101 +5,99 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 body {
-  width: 100%;
-  height: 100%;
-  font-size: min(24px, 100vw / 20, 100vh / 20);
-  color: white;
-  font-family: 'Nunito Sans', sans-serif;
-  text-shadow: 0 0 0.5em rgba(0,0,0,0.8);
-  text-align: center;
-  background-color: black;
+	width: 100%;
+	height: 100%;
+	font-size: min(24px, 100vw / 20, 100vh / 20);
+	color: white;
+	font-family: 'Nunito Sans', sans-serif;
+	text-shadow: 0 0 0.5em rgba(0,0,0,0.8);
+	text-align: center;
+	background-color: black;
 }
 h1 {
-  font-weight: 200;
-  font-size: 3em;
+	font-weight: 200;
+	font-size: 3em;
 }
 .fullscreen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 video.fullscreen {
-  object-fit: cover;
+	object-fit: cover;
 }
 .overlay {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 .button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1em;
-  border: 1px solid white;
-  border-radius: 5px;
-  color: white;
-  text-decoration: none;
-  margin: 1em;
-  transition: background-color 0.5s;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1em;
+	border: 1px solid white;
+	border-radius: 5px;
+	color: white;
+	text-decoration: none;
+	margin: 1em;
+	transition: background-color 0.5s;
 }
 .button:hover {
-  background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0,0,0,0.5);
 }
 </style>
 </head>
 <body>
 <video class="fullscreen" muted autoplay playsinline loop>
-  <source src="video/vp9.webm" type="video/webm">
-  <source src="video/h264.mp4" type="video/mp4">
-  Your browser does not support HTML5 video.
+	<source src="video/vp9.webm" type="video/webm">
+	<source src="video/h264.mp4" type="video/mp4">
+	Your browser does not support HTML5 video.
 </video>
 <div class="fullscreen overlay">
-  <div class="desc">
-    <h1>Yifan Gu</h1>
-    <p>&nbsp;<span id="desc">Some random dude.</span>&nbsp;</p>
-  </div>
-  <a class="button" href="https://blog.yifangu.com">
-    Enter Blog
-  </a>
+	<div class="desc">
+		<h1>Yifan Gu</h1>
+		<p>&nbsp;<span id="desc">Some random dude.</span>&nbsp;</p>
+	</div>
+	<a class="button" href="https://blog.yifangu.com">
+		Enter Blog
+	</a>
 </div>
 <script>
 const sleep = (ms) => {
 	return new Promise((resolve) => {
-  	setTimeout(resolve, ms);
-  })
+		setTimeout(resolve, ms);
+	})
 };
 const descElement = document.getElementById("desc");
 const descs = [
 	descElement.innerText,
-  "Coder",
-  "Maker",
-  "Fidder",
-  "Photographer",
-  "Videographer",
-  "Daydreamer"
+	"Coder",
+	"Maker",
+	"Photographer",
+	"Daydreamer"
 ];
 const displayInterval = 3000;
 const typeInterval = 50;
 (async () => {
 	let i = 0;
 	while (true) {
-  	await sleep(displayInterval);
-    let text = descs[i];
-    for (let j = text.length; j >= 0; j--) {
-    	descElement.innerText = text.slice(0, j);
-      await sleep(typeInterval);
-    }
-    i = (i + 1) % descs.length;
-    text = descs[i];
-    for (let j = 0; j <= text.length; j++) {
-    	descElement.innerText = text.slice(0, j);
-      await sleep(typeInterval);
-    }
-  }
+		await sleep(displayInterval);
+		let text = descs[i];
+		for (let j = text.length; j >= 0; j--) {
+			descElement.innerText = text.slice(0, j);
+			await sleep(typeInterval);
+		}
+		i = (i + 1) % descs.length;
+		text = descs[i];
+		for (let j = 0; j <= text.length; j++) {
+			descElement.innerText = text.slice(0, j);
+			await sleep(typeInterval);
+		}
+	}
 })();
 </script>
 </body>
