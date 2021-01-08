@@ -39,6 +39,9 @@ video.fullscreen {
 	justify-content: center;
 	align-items: center;
 }
+.desc {
+	margin: 2em;
+}
 .button {
 	display: flex;
 	justify-content: center;
@@ -48,8 +51,7 @@ video.fullscreen {
 	border-radius: 5px;
 	color: white;
 	text-decoration: none;
-	margin: 0;
-	margin-top: 3em;
+	margin: 0.5em;
 	transition: background-color 0.5s;
 }
 .button:hover {
@@ -72,9 +74,14 @@ video.fullscreen {
 		<h1>Yifan Gu</h1>
 		<p>- <span id="desc">Some random dude</span></p>
 	</div>
-	<a class="button" href="https://blog.yifangu.com">
-		Enter my Blog
-	</a>
+	<div class="links">
+		<a class="button" href="https://blog.yifangu.com">
+			Enter my Blog
+		</a>
+		<a class="button" href="https://github.com/gyf304">
+			<img alt="GitHub" style="filter: invert(1);" height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg" />
+		</a>
+	</div>
 </div>
 <script>
 const sleep = (ms) => {
