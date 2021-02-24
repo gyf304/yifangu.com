@@ -1,3 +1,6 @@
+---
+---
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,30 +11,32 @@
 <style>
 body {
 	width: 100%;
-	height: 100%;
-	font-size: min(24px, 100vw / 20, 100vh / 20);
 	color: white;
 	font-family: 'Nunito Sans', sans-serif;
 	font-weight: 200;
-	text-shadow: 0 0 0.5em rgba(0,0,0,0.8);
-	text-align: center;
 	background-color: black;
-}
-p {
 	margin: 0;
+	padding: 0;
 }
-h1 {
-	margin: 0;
-	font-size: 3em;
+a {
+	color: inherit;
+	text-decoration: inherit;
 }
 .fullscreen {
+	width: 100%;
+	height: 100vh;
+	text-align: center;
+	text-shadow: 0 0 0.5em rgba(0,0,0,0.8);
+	font-size: min(24px, 100vw / 20, 100vh / 20);
+}
+.fullscreen > * {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 }
-video.fullscreen {
+video {
 	object-fit: cover;
 }
 .overlay {
@@ -54,36 +59,72 @@ video.fullscreen {
 	text-decoration: none;
 	margin: 0.5em;
 	transition: background-color 0.5s;
+	height: 1.5em;
 }
 .button:hover {
 	background-color: rgba(0,0,0,0.5);
 }
+.digest {
+	display: flex;
+	box-sizing: border-box;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 2em;
+}
+.digest > .container {
+	width: 100%;
+	max-width: 800px;
+}
+.digest h1 {
+	text-align: center;
+}
+.read-more {
+	color: gray;
+	text-align: right;
+}
 </style>
 </head>
 <body>
-<video
-	class="fullscreen"
-	poster="videos/new-york/poster.jpg"
-	muted autoplay playsinline loop
->
-	<source src="videos/new-york/vp9.webm" type="video/webm">
-	<source src="videos/new-york/h264.mp4" type="video/mp4">
-	Your browser does not support HTML5 video.
-</video>
-<div class="fullscreen overlay">
-	<div class="desc">
-		<img src="/images/name.png" alt="Yifan Gu" style="filter: drop-shadow(0 0 0.5em #000);width:100%;max-width:500px;fill:white"/>
-		<p>- <span id="desc">some random dude</span></p>
-	</div>
-	<div class="links">
-		<a class="button" href="https://blog.yifangu.com">
-			enter my blog
-		</a>
-		<a class="button" href="https://github.com/gyf304">
-			<img alt="GitHub" style="filter: invert(1);" height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg" />
-		</a>
+
+<div class="fullscreen">
+	<video
+		poster="videos/new-york/poster.jpg"
+		muted autoplay playsinline loop
+	>
+		<source src="videos/new-york/vp9.webm" type="video/webm">
+		<source src="videos/new-york/h264.mp4" type="video/mp4">
+		Your browser does not support HTML5 video.
+	</video>
+	<div class="overlay">
+		<div class="desc">
+			<img src="/images/name.png" alt="Yifan Gu" style="filter: drop-shadow(0 0 0.5em #000);width:100%;max-width:500px;fill:white"/>
+			<p>- <span id="desc">some random dude</span></p>
+		</div>
+		<div class="links">
+			<a class="button" href="https://blog.yifangu.com">
+				enter my blog
+			</a>
+			<a class="button" href="https://github.com/gyf304">
+				<img alt="GitHub" style="filter: invert(1);" height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg" />
+			</a>
+		</div>
 	</div>
 </div>
+
+<div class="digest">
+	<div class="container">
+		<h1>Recent Posts</h1>
+		{% for post in site.data.wordpress.posts %}
+		<div>
+			<h2><a href="{{ post.URL }}">{{ post.title }}</a></h2>
+			{{ post.excerpt }}
+			<p class="read-more"><a href="{{ post.URL }}">Read More</a></p>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
 <script>
 const sleep = (ms) => {
 	return new Promise((resolve) => {
