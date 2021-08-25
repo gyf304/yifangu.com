@@ -19,7 +19,7 @@ body {
 	color: white;
 	font-family: 'Nunito Sans', sans-serif;
 	font-weight: 200;
-	background-color: #28303d;
+	background-color: #222;
 	margin: 0;
 	padding: 0;
 }
@@ -41,7 +41,7 @@ a {
 	width: 100%;
 	height: 100vh;
 	text-align: center;
-	text-shadow: 0 0 0.5em rgba(0,0,0,0.8);
+	text-shadow: 0 0 0.4em rgba(0,0,0,0.8);
 	font-size: min(24px, 100vw / 20, 100vh / 20);
 }
 .fullscreen > * {
@@ -61,26 +61,29 @@ video {
 	align-items: center;
 }
 .desc {
-	margin: 2em;
+	margin: 1.5em;
 }
 .button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0.5em 1.5em;
+	padding: 0.5em 3.75em;
 	border: 1px solid white;
 	border-radius: 5px;
 	color: white;
 	text-decoration: none;
-	margin: 0.5em;
+	margin: 0.75em;
 	transition: background-color 0.5s;
-	height: 1.5em;
+	height: 1em;
+}
+.cdot {
+	margin: 0 0.5em;
 }
 .tiny {
-	font-size: 0.65em;
+	font-size: 0.75em;
 }
 .button:hover {
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0,0,0,0.3);
 }
 .digest {
 	display: flex;
@@ -126,16 +129,17 @@ video::-webkit-media-controls {
 		</div>
 		<div class="links">
 			<a class="button" href="https://blog.yifangu.com">
-				my blog
+				<span>Blog</span>
 			</a>
 			<a class="button" href="https://github.com/gyf304">
-				<img alt="GitHub" style="filter: invert(1);" height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg" />
+				<!-- <img alt="GitHub" style="filter: invert(1) drop-shadow(0 0 0.4em rgba(0,0,0,0.8)); margin-left: -24px" height="24" width="24" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg" /> -->
+				<span>GitHub</span>
 			</a>
 			<p class="tiny">
 				<a href="https://unsplash.com/@yifangu">Unsplash</a>
-				&nbsp;&middot;&nbsp;
+				<span class="cdot">&middot;</span>
 				<a href="https://www.linkedin.com/in/yifan-gu-b44213102/">LinkedIn</a>
-				&nbsp;&middot;&nbsp;
+				<span class="cdot">&middot;</span>
 				<a href="https://docs.google.com/document/d/1LbHm4HpPjAn5i9NNBxj_oJumZe8uTUnZdtiPGI3LUDI/preview">CV</a>
 			</p>
 		</div>
