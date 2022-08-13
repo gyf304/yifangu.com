@@ -184,7 +184,8 @@ video::-webkit-media-controls {
 <script>
 document.getElementById("video").play();
 const supportsTouch = "ontouchstart" in window || "msMaxTouchPoints" in navigator;
-if (!supportsTouch) {
+const isDesktop = !supportsTouch || window.innerWidth > 768;
+if (isDesktop) {
 	const fullscreen = document.getElementById("fullscreen");
 	const floaty = document.getElementById("floaty");
 
@@ -192,8 +193,8 @@ if (!supportsTouch) {
 	let rotY = 0;
 
 	fullscreen.addEventListener("mousemove", function (e) {
-		rotX = -(e.clientY / fullscreen.offsetHeight * 2 - 1) * 5;
-		rotY = (e.clientX / fullscreen.offsetWidth * 2 - 1) * 5;
+		rotX = -(e.clientY / fullscreen.offsetHeight * 2 - 1) * 8;
+		rotY = (e.clientX / fullscreen.offsetWidth * 2 - 1) * 8;
 	});
 
 	let delayedRotX = 0;
@@ -202,11 +203,11 @@ if (!supportsTouch) {
 	let prevTimestamp = 0;
 
 	const sigma = 0.01;
+	const lambda = 200;
 	function update(timestamp) {
 		const ms = timestamp - prevTimestamp;
 		prevTimestamp = timestamp;
-		const k = 0.005;
-		const ratio = Math.exp(-k * ms);
+		const ratio = Math.exp(-ms / lambda);
 		const newDelayedRotX = delayedRotX * ratio + rotX * (1 - ratio);
 		const newDelayedRotY = delayedRotY * ratio + rotY * (1 - ratio);
 
@@ -218,7 +219,6 @@ if (!supportsTouch) {
 
 		requestAnimationFrame(update);
 	}
-
 	update(0);
 }
 const sleep = (ms) => {
