@@ -28,14 +28,14 @@ a {
 	color: inherit;
 	text-decoration: inherit;
 }
-.copyright {
+.bottom-right {
 	position: absolute;
 	right: 1em;
 	bottom: 0.5em;
 	font-size: 0.5em;
 	text-align: right;
 }
-.copyright p {
+.copyright {
 	margin: 0.5em 0;
 }
 .fullscreen {
@@ -43,7 +43,7 @@ a {
 	height: 100vh;
 	text-align: center;
 	text-shadow: 0 0 0.4em rgba(0,0,0,0.8);
-	font-size: min(24px, 100vw / 20, 100vh / 20);
+	font-size: min(22px, 100vw / 20, 100vh / 20);
 }
 .fullscreen > * {
 	position: absolute;
@@ -61,7 +61,14 @@ video {
 	justify-content: center;
 	align-items: center;
 }
+.floaty {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 .desc {
+	/* width: 100%; */
 	margin: 1.5em;
 	font-family: 'Nixie One', cursive;
 }
@@ -69,14 +76,14 @@ video {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0.5em 3.75em;
-	border: 1px solid white;
+	padding: 0.5em 3em;
+	border: 1.5px solid white;
 	border-radius: 5px;
 	color: white;
 	text-decoration: none;
-	margin: 0.75em;
+	margin: 0.2em;
 	transition: background-color 0.5s;
-	height: 1em;
+	height: 0.8em;
 }
 .cdot {
 	margin: 0 0.5em;
@@ -114,7 +121,7 @@ video::-webkit-media-controls {
 </head>
 <body>
 
-<div class="fullscreen">
+<div class="fullscreen" id="fullscreen">
 	<video
 		id="video"
 		poster="videos/pittsburgh-light-rail/poster.jpg"
@@ -124,29 +131,32 @@ video::-webkit-media-controls {
 		<source src="videos/pittsburgh-light-rail/h264.mp4" type="video/mp4">
 		Your browser does not support HTML5 video.
 	</video>
-	<div class="overlay">
-		<div class="desc">
-			<img src="/images/name.png" alt="Yifan Gu" style="filter: drop-shadow(0 0 0.5em #000);width:100%;max-width:500px;fill:white"/>
-			<p>- <span id="desc">some random dude</span></p>
+	<div class="overlay" id="overlay">
+		<div class="floaty" id="floaty">
+			<div class="desc">
+				<img src="/images/name.png" alt="Yifan Gu"
+					style="filter: drop-shadow(0 0 0.5em #000);width:100%;max-width:500px;fill:white" />
+				<p>- <span id="desc">some random dude</span></p>
+			</div>
+			<div class="links">
+				<a class="button" href="https://blog.yifangu.com">
+					<span>Blog</span>
+				</a>
+				<a class="button" href="https://github.com/gyf304">
+					<img alt="GitHub" style="filter: invert(1) drop-shadow(0 0 0.4em rgba(0,0,0,0.8));" height="24" width="24" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg" />
+					<!-- <span>GitHub</span> -->
+				</a>
+				<p class="tiny">
+					<a href="https://unsplash.com/@yifangu">Unsplash</a>
+					<span class="cdot">&middot;</span>
+					<a href="https://www.linkedin.com/in/yifan-gu-b44213102/">LinkedIn</a>
+					<span class="cdot">&middot;</span>
+					<a href="https://docs.google.com/document/d/1LbHm4HpPjAn5i9NNBxj_oJumZe8uTUnZdtiPGI3LUDI/preview">CV</a>
+				</p>
+			</div>
 		</div>
-		<div class="links">
-			<a class="button" href="https://blog.yifangu.com">
-				<span>Blog</span>
-			</a>
-			<a class="button" href="https://github.com/gyf304">
-				<!-- <img alt="GitHub" style="filter: invert(1) drop-shadow(0 0 0.4em rgba(0,0,0,0.8)); margin-left: -24px" height="24" width="24" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg" /> -->
-				<span>GitHub</span>
-			</a>
-			<p class="tiny">
-				<a href="https://unsplash.com/@yifangu">Unsplash</a>
-				<span class="cdot">&middot;</span>
-				<a href="https://www.linkedin.com/in/yifan-gu-b44213102/">LinkedIn</a>
-				<span class="cdot">&middot;</span>
-				<a href="https://docs.google.com/document/d/1LbHm4HpPjAn5i9NNBxj_oJumZe8uTUnZdtiPGI3LUDI/preview">CV</a>
-			</p>
-		</div>
-		<div class="copyright">
-			<p>Video &copy; Yifan Gu 2022</p>
+		<div class="bottom-right">
+			<p class="copyright">Video &copy; Yifan Gu 2022</p>
 			<!-- <p>Drone footages acquired in accordance with FAA AC 91-57B</p> -->
 		</div>
 	</div>
@@ -167,6 +177,37 @@ video::-webkit-media-controls {
 
 <script>
 document.getElementById("video").play();
+const supportsTouch = "ontouchstart" in window || "msMaxTouchPoints" in navigator;
+if (!supportsTouch) {
+	const fullscreen = document.getElementById("fullscreen");
+	const floaty = document.getElementById("floaty");
+
+	let rotX = 0;
+	let rotY = 0;
+
+	fullscreen.addEventListener("mousemove", function (e) {
+		rotX = -(e.clientY / fullscreen.offsetHeight * 2 - 1) * 5;
+		rotY = (e.clientX / fullscreen.offsetWidth * 2 - 1) * 5;
+	});
+
+	let delayedRotX = 0;
+	let delayedRotY = 0;
+
+	let prevTimestamp = 0;
+
+	function update(timestamp) {
+		const ms = timestamp - prevTimestamp;
+		prevTimestamp = timestamp;
+		const k = 0.005;
+		const ratio = Math.exp(-k * ms);
+		delayedRotX = delayedRotX * ratio + rotX * (1 - ratio);
+		delayedRotY = delayedRotY * ratio + rotY * (1 - ratio);
+		floaty.style = `transform: perspective(10cm) rotateX(${delayedRotX}deg) rotateY(${delayedRotY}deg)`;
+		requestAnimationFrame(update);
+	}
+
+	update(0);
+}
 const sleep = (ms) => {
 	return new Promise((resolve) => {
 		setTimeout(resolve, ms);
