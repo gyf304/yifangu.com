@@ -66,11 +66,17 @@ video {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	transform-style: preserve-3d;
+	transform: perspective(300px);
+}
+.signature {
+	transform-style: preserve-3d;
+	transform: translate3d(0, 0, 50px);
 }
 .desc {
-	/* width: 100%; */
 	margin: 1.5em;
 	font-family: 'Nixie One', cursive;
+	transform-style: preserve-3d;
 }
 .button {
 	display: flex;
@@ -134,8 +140,8 @@ video::-webkit-media-controls {
 	<div class="overlay" id="overlay">
 		<div class="floaty" id="floaty">
 			<div class="desc">
-				<img src="/images/name.png" alt="Yifan Gu"
-					style="filter: drop-shadow(0 0 0.5em #000);width:100%;max-width:500px;fill:white" />
+				<img class="signature" src="/images/name.png" alt="Yifan Gu"
+					style="filter: drop-shadow(0 0 0.5em #000);width:80%;max-width:450px;fill:white" />
 				<p>- <span id="desc">some random dude</span></p>
 			</div>
 			<div class="links">
@@ -195,14 +201,21 @@ if (!supportsTouch) {
 
 	let prevTimestamp = 0;
 
+	const sigma = 0.01;
 	function update(timestamp) {
 		const ms = timestamp - prevTimestamp;
 		prevTimestamp = timestamp;
 		const k = 0.005;
 		const ratio = Math.exp(-k * ms);
-		delayedRotX = delayedRotX * ratio + rotX * (1 - ratio);
-		delayedRotY = delayedRotY * ratio + rotY * (1 - ratio);
-		floaty.style = `transform: perspective(10cm) rotateX(${delayedRotX}deg) rotateY(${delayedRotY}deg)`;
+		const newDelayedRotX = delayedRotX * ratio + rotX * (1 - ratio);
+		const newDelayedRotY = delayedRotY * ratio + rotY * (1 - ratio);
+
+		if (Math.abs(newDelayedRotX - delayedRotX) > sigma || Math.abs(newDelayedRotY - delayedRotY) > sigma) {
+			delayedRotX = newDelayedRotX;
+			delayedRotY = newDelayedRotY;
+			floaty.style.transform = `perspective(300px) translate3d(0, 0, 0) rotateX(${delayedRotX}deg) rotateY(${delayedRotY}deg)`;
+		}
+
 		requestAnimationFrame(update);
 	}
 
