@@ -204,7 +204,7 @@ if (isDesktop) {
 
 	const sigma = 0.01;
 	const lambda = 200;
-	function update(timestamp) {
+	const update = (timestamp) => {
 		const ms = timestamp - prevTimestamp;
 		prevTimestamp = timestamp;
 		const ratio = Math.exp(-ms / lambda);
