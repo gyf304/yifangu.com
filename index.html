@@ -193,10 +193,27 @@ if (isDesktop) {
 	let rotX = 0;
 	let rotY = 0;
 
+	let mouseX;
+	let mouseY;
+
+	const updateRot = () => {
+		if (mouseX === undefined || mouseY === undefined) {
+			return;
+		}
+		const rect = fullscreen.getBoundingClientRect();
+		const offsetX = mouseX - rect.left - rect.width / 2;
+		const offsetY = mouseY - rect.top - rect.height / 2;
+		rotX = -Math.atan(offsetY / 15000) * 180;
+		rotY = Math.atan(offsetX / 15000) * 180;
+	};
+
 	fullscreen.addEventListener("mousemove", function (e) {
-		rotX = -(e.clientY / fullscreen.offsetHeight * 2 - 1) * 8;
-		rotY = (e.clientX / fullscreen.offsetWidth * 2 - 1) * 8;
+		mouseX = e.screenX;
+		mouseY = e.screenY;
+		updateRot();
 	});
+
+	document.addEventListener("scroll", updateRot);
 
 	let delayedRotX = 0;
 	let delayedRotY = 0;
