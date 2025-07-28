@@ -203,8 +203,8 @@ if (isDesktop) {
 		const rect = fullscreen.getBoundingClientRect();
 		const offsetX = mouseX - rect.left - rect.width / 2;
 		const offsetY = mouseY - rect.top - rect.height / 2;
-		rotX = -Math.atan(offsetY / 15000) * 180;
-		rotY = Math.atan(offsetX / 15000) * 180;
+		rotX = -Math.atan(offsetY / 25000) * 180;
+		rotY = Math.atan(offsetX / 25000) * 180;
 	};
 
 	fullscreen.addEventListener("mousemove", function (e) {
