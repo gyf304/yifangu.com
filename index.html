@@ -180,11 +180,11 @@ video::-webkit-media-controls {
 <div class="digest">
 	<div class="container">
 		<h1>Recent Posts</h1>
-		{% for post in site.data.wordpress.posts %}
+		{% for post in site.data.wordpress %}
 		<div>
-			<h2><a href="{{ post.URL }}">{{ post.title }}</a></h2>
-			{{ post.excerpt }}
-			<p class="read-more"><a href="{{ post.URL }}">Read More</a></p>
+			<h2><a href="{{ post.link }}">{{ post.title.rendered }}</a></h2>
+			{{ post.excerpt.rendered }}
+			<p class="read-more"><a href="{{ post.link }}">Read More</a></p>
 		</div>
 		{% endfor %}
 	</div>
